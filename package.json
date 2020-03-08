@@ -4,6 +4,7 @@
   "description": "An API for 2HouseCal project",
   "main": "server.js",
   "scripts": {
+    "preinstall": "node gcpSetup.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
