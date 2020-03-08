@@ -1,11 +1,12 @@
 // Firebase 
+require('dotenv').config({ path: './.env' });
 
 var admin = require("firebase-admin");
 
-var serviceAccount = require("./.env");
+var serviceAccount = require('./.env');
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.applicationDefault(),
   databaseURL: "https://housecal-4ff38.firebaseio.com"
 });
 
@@ -14,7 +15,7 @@ let db = admin.firestore();
 
 const express = require('express');
 const bodyParser = require('body-parser');
-require('dotenv').config();
+
 const firebase = require('firebase');
 const cors = require('cors')
 const path = require('path')
