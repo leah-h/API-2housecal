@@ -33,17 +33,41 @@ app.get('/', (req, res) =>  {
 
 app.get('/api/users', async (req, res) => {
 
-  let usersRef = db.collection('users');
-  let users = [];
-  let allUsers = await usersRef.get()
-  if (allUsers) {
-    allUsers.forEach((doc) => {
-      users.push(doc.data());
-    })
-    res.send(users);
-  }
-  
-})
+    let usersRef = db.collection('users');
+    let users = [];
+    let allUsers = await usersRef.get()
+    if (allUsers) {
+        allUsers.forEach((doc) => {
+            users.push({
+                userId: doc.id,
+                ...doc.data()
+            });
+        })
+        res.status(200).send(users);
+    } else {
+        res.status(404).send('Error getting users data');
+    }  
+});
+
+app.get('/api/children', async (req, res) => {
+
+    let childrenRef = db.collection('children');
+    let children = [];
+    let allChildren = await childrenRef.get()
+    if (allChildren) {
+        allChildren.forEach((doc) => {
+            children.push({
+                childId: doc.id,
+                ...doc.data()
+            });
+        })
+        res.status(200).send(children);
+    } else {
+        res.status(404).send('Error getting children data');
+    } 
+});
+
+
 
 
 
