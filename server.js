@@ -3,7 +3,7 @@ require('dotenv').config({ path: './.env' });
 
 var admin = require("firebase-admin");
 
-var serviceAccount = require('./.gcpSetup.js');
+var serviceAccount = require('./gcpSetup.js');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
