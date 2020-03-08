@@ -3,10 +3,10 @@ require('dotenv').config({ path: './.env' });
 
 var admin = require("firebase-admin");
 
-var serviceAccount = require('./.env');
+var serviceAccount = require(process.env.GCP_CRED);
 
 admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
+  credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://housecal-4ff38.firebaseio.com"
 });
 
