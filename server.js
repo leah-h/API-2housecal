@@ -3,7 +3,7 @@ require('dotenv').config({ path: './.env' });
 
 var admin = require("firebase-admin");
 
-var serviceAccount = require('./gcpSetup.js');
+var serviceAccount = require('./firebase/serviceAccount.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -48,6 +48,21 @@ app.get('/api/users', async (req, res) => {
     } else {
         res.status(404).send('Error getting users data');
     }  
+});
+
+app.get('/api/users/:id', async (req, res) => {
+    let id = req.params.id
+ 
+    let usersRef = db.collection('users');
+    let queryUser = await usersRef.doc(id).get()
+        .then(snapshot => {
+            res.send(snapshot.data());
+        })
+
+        .catch(err => {
+            console.log('Error getting documents', err);
+        });
+  
 });
 
 app.get('/api/children', async (req, res) => {
