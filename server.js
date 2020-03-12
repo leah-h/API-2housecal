@@ -83,12 +83,23 @@ app.get('/api/children', async (req, res) => {
     } 
 });
 
+app.get('/api/events/:userId', async(req, res) => {
+    let userId = req.params.userId;
 
+    let eventsByUser = [];
 
+    await db.collection('events').where('userId', '==', userId).get()
+        .then(snapshot => {
+            snapshot.forEach(doc => {
+                eventsByUser.push(doc.data())
+            })
+            res.send(eventsByUser);
+        })
 
-
-
-
+        .catch(err => {
+            console.log('Error getting documents', err);
+        });
+});
 
 
 
