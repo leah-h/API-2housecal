@@ -65,6 +65,24 @@ app.get('/api/users/:id', async (req, res) => {
   
 });
 
+app.get('/api/users/search/:email', async(req, res) => {
+
+    let email = req.params.email;
+
+    await db.collection("users").where("email", "==", email).get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                const data = doc.data();
+                res.send(data);
+
+            })
+        })
+        .catch(err => {
+            console.log('Error getting user by email', err);
+        });
+
+});
+
 app.get('/api/children', async (req, res) => {
 
     let childrenRef = db.collection('children');
@@ -83,12 +101,14 @@ app.get('/api/children', async (req, res) => {
     } 
 });
 
-app.get('/api/events/:userId', async(req, res) => {
-    let userId = req.params.userId;
+
+
+app.get('/api/events/:parentId', async(req, res) => {
+    let parentId = req.params.parentId;
 
     let eventsByUser = [];
 
-    await db.collection('events').where('userId', '==', userId).get()
+    await db.collection('events').where('parentId', '==', parentId).get()
         .then(snapshot => {
             snapshot.forEach(doc => {
                 eventsByUser.push(doc.data())
